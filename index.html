@@ -118,7 +118,7 @@
             
 
          if (selectedValue && paperSize) {
-                const url = `brotherwebprint://print?filename=${selectedValue}&${paperSize}&orientation=${encodeURIComponent(orientation)}&text_text=${encodeURIComponent(text1Object)}&barcode_barcode=${encodeURIComponent(barcodeObject)}&copies=${encodeURIComponent(copies)}`;
+                const url = `brotherwebprint://print?filename=${selectedValue}&size=${paperSize}&orientation=${encodeURIComponent(orientation)}&text_text=${encodeURIComponent(text1Object)}&barcode_barcode=${encodeURIComponent(barcodeObject)}&copies=${encodeURIComponent(copies)}`;
                 window.open(url, '_blank');
             }
         }
