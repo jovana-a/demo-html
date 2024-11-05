@@ -35,8 +35,15 @@
 </head>
 <body>
 
-    <img src="https://github.com/bonecrackerjovana/demo-html/blob/main/Logo.png" alt="Brother Logo" class="logo" width="200">
-    <div class="container">
+    <div id="logo-container"></div>
+
+    <script>
+        const logo = document.createElement('img');
+        logo.src = 'https://github.com/bonecrackerjovana/demo-html/blob/main/Logo.png';
+        logo.alt = 'Company Logo';
+        logo.style.width = '150px'; // Adjust size as needed
+
+        document.getElementById('logo-container').appendChild(logo)
 
     <h1>Brother Smooth Print Demo</h1>
     <form id="printForm">
