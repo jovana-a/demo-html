@@ -3,131 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smooth Print</title>
     <style>
         body {
             background-color: #35C4B5;
-            font-family: Helvetica Neue LT W1G;
+            font-family: Helvetica Neue LT W1G 75 Bold;
         }
         .container {
-            background-color: #0D2EA0;
+            background-color: #EF6467;
             padding: 20px;
             border-radius: 10px;
             width: 300px;
             margin: auto;
             text-align: center;
         }
-        title, label, {
-            color: red;
-            margin: 10px 0;
-	 }
+        h1, label {
+            color: white; /* Title and labels in white */
+        }
         select, input, button {
-            color: #8E258D;
+            color: darkblue; /* Text inside inputs and buttons */
             margin: 10px 0;
+        }
+        input {
+            background-color: white; /* White background for input fields */
+            color: darkblue; /* Dark blue text inside input fields */
+        }
+        #paperSizeLabel {
+            color: white; /* Paper size text in white */
         }
         .logo {
             display: block;
             margin: 0 auto 20px;
         }
+        #previewLink {
+            margin-top: 20px;
+            color: darkblue; /* Color for the preview link text */
+            word-wrap: break-word; /* Ensure long URLs wrap */
+        }
     </style>
-
 </head>
 <body>
 
-    <img src="Bluebar.jpg" alt="Brother Logo" class="logo" width="200">
+    <img src="Bluebar.jpg" alt="Brother Logo" class="logo" width="300">
     <div class="container">
-	    
-    <h1>Brother Smooth Print Demo</h1>
-    <form id="printForm">
-    <!-- Dropdown List -->
-    <label for="templateDropdown">Select Template:</label>
-    <select id="templateDropdown" onchange="showPaperSize()">
-        <option value="">--Select an option--</option>
-        <option value="PRICE.lbx">PRICE</option>
-        <option value="RECEIPT.lbx">RECEIPT</option>
-        <option value="SHIPPING.lbx">SHIPPING</option>
-    </select>
+        <h1>Brother Smooth Print Demo</h1>
+        <form id="printForm">
+            <!-- Dropdown List -->
+            <label for="templateDropdown">Select Template:</label>
+            <select id="templateDropdown" onchange="showPaperSize()">
+                <option value="">--Select an option--</option>
+                <option value="PRICE.lbx">PRICE</option>
+                <option value="RECEIPT.lbx">RECEIPT</option>
+                <option value="SHIPPING.lbx">SHIPPING</option>
+            </select>
 
-<label for="papersize">Paper Size:</label>
-    <p id="paperSizeLabel"></p>
+            <label for="papersize">Paper Size:</label>
+            <p id="paperSizeLabel"></p>
 
-        <label for="text1Object">Text Object:</label>
-        <input type="text" id="text1Object" name="text1Object" required><br><br>
+            <label for="text1Object">Text Object:</label>
+            <input type="text" id="text1Object" name="text1Object" required><br><br>
 
-        <label for="barcodeObject">Barcode (Code128) Object:</label>
-        <input type="text" id="barcodeObject" name="barcodeObject" required><br><br>
+            <label for="barcodeObject">Barcode (Code128) Object:</label>
+            <input type="text" id="barcodeObject" name="barcodeObject" required><br><br>
 	
-	<label for="Orientation">Orientation:</label>
-	<select id="orientation">
-        <option value="portrait">Portrait</option>
-        <option value="landscape">Landscape</option>
-    	
-	</select>
- 	<br><br>
+            <label for="Orientation">Orientation:</label>
+            <select id="orientation">
+                <option value="portrait">Portrait</option>
+                <option value="landscape">Landscape</option>
+            </select>
+            <br><br>
 
-        <label for="copies">Copies:</label>
-        <input type="text" id="copies" name="copies" required><br><br>
+            <label for="copies">Copies:</label>
+            <input type="text" id="copies" name="copies" required><br><br>
 
-        <button type="button" onclick="sendToPrint()">Send to Print</button>
+            <button type="button" onclick="previewLink()">Preview Link</button>
+            <button type="button" onclick="sendToPrint()">Send to Print</button>
+        </form>
 
-    </form>
+        <div id="previewLink"></div> <!-- Container for displaying the preview link -->
 
-    <script>
-	
-        function showPaperSize() {
-            const dropdown = document.getElementById("templateDropdown");
-            const paperSizeLabel = document.getElementById("paperSizeLabel");
-            const printButton = document.getElementById("printButton");
-            const selectedValue = dropdown.value;
-            let paperSize = "";
+        <script>
+            function showPaperSize() {
+                const dropdown = document.getElementById("templateDropdown");
+                const paperSizeLabel = document.getElementById("paperSizeLabel");
+                const selectedValue = dropdown.value;
+                let paperSize = "";
 
-            switch (selectedValue) {
-                case "PRICE.lbx":
-                    paperSize = "51x26.bin";
-                    break;
-                case "RECEIPT.lbx":
-                    paperSize = "rd76.bin";
-                    break;
-                case "SHIPPING.lbx":
-                    paperSize = "102x150.bin";
-                    break;
-                default:
-                    paperSize = "";
+                switch (selectedValue) {
+                    case "PRICE.lbx":
+                        paperSize = "51x26.bin";
+                        break;
+                    case "RECEIPT.lbx":
+                        paperSize = "rd76.bin";
+                        break;
+                    case "SHIPPING.lbx":
+                        paperSize = "102x150.bin";
+                        break;
+                    default:
+                        paperSize = "";
+                }
+
+                paperSizeLabel.textContent = paperSize;
             }
 
-            paperSizeLabel.textContent = paperSize;
-
-            if (paperSize) {
-                printButton.disabled = false;
-            } else {
-                printButton.disabled = true;
+            function previewLink() {
+                const url = generateUrl();
+                const previewDiv = document.getElementById("previewLink");
+                if (url) {
+                    previewDiv.textContent = url; // Display the URL as text
+                } else {
+                    previewDiv.textContent = ""; // Clear if no URL
+                }
             }
-        }
 
-        function sendToPrint() {
-            const dropdown = document.getElementById("templateDropdown");
-            const paperSizeLabel = document.getElementById("paperSizeLabel");
-            const selectedValue = dropdown.value;
-            const paperSize = paperSizeLabel.textContent;
-            const text1Object = document.getElementById('text1Object').value;
-            const barcodeObject = document.getElementById('barcodeObject').value;
-	    const orientation = document.getElementById('orientation').value;
-	    const copies = document.getElementById('copies').value;
-   
-            
-
-         if (selectedValue && paperSize) {
-                const url = `brotherwebprint://print?filename=${selectedValue}&size=${paperSize}&orientation=${encodeURIComponent(orientation)}&text_text=${encodeURIComponent(text1Object)}&barcode_barcode=${encodeURIComponent(barcodeObject)}&copies=${encodeURIComponent(copies)}`;
-                window.open(url, '_blank');
+            function sendToPrint() {
+                const url = generateUrl();
+                if (url) {
+                    window.open(url, '_blank');
+                }
             }
-        }
 
-	</script>
+            function generateUrl() {
+                const dropdown = document.getElementById("templateDropdown");
+                const paperSizeLabel = document.getElementById("paperSizeLabel");
+                const selectedValue = dropdown.value;
+                const paperSize = paperSizeLabel.textContent;
+                const text1Object = document.getElementById('text1Object').value;
+                const barcodeObject = document.getElementById('barcodeObject').value;
+                const orientation = document.getElementById('orientation').value;
+                const copies = document.getElementById('copies').value;
 
+                if (selectedValue && paperSize) {
+                    return `brotherwebprint://print?filename=${selectedValue}&size=${paperSize}&orientation=${encodeURIComponent(orientation)}&text_text=${encodeURIComponent(text1Object)}&barcode_barcode=${encodeURIComponent(barcodeObject)}&copies=${encodeURIComponent(copies)}`;
+                }
+                return null;
+            }
+        </script>
+    </div>
 </body>
 </html>
