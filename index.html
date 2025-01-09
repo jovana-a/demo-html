@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smooth Print</title>
     <style>
-    body {
-        background-color: #35C4B5;
-        font-family: Helvetica Neue LT W1G 75 Bold;
-        background-image: url('T&L.jpg'); /* Add your image URL here */
-        background-size: cover; /* Ensure the image covers the entire background */
-        background-position: center; /* Center the background image */
-        background-repeat: no-repeat; /* Prevent the image from repeating */
-        background-attachment: fixed; /* Keep the background image fixed in place */
-    }
+        body {
+            background-color: #35C4B5;
+            font-family: Helvetica Neue LT W1G 75 Bold;
+            background-image: url('T&L.jpg'); /* Add your image URL here */
+            background-size: cover; /* Ensure the image covers the entire background */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+            background-attachment: fixed; /* Keep the background image fixed in place */
+        }
 
         .container {
             background-color: #EF6467;
@@ -56,7 +56,7 @@
         <form id="printForm">
             <!-- Dropdown List -->
             <label for="templateDropdown">Select Template:</label>
-            <select id="templateDropdown" onchange="showPaperSize()">
+            <select id="templateDropdown" onchange="updateLabels(); showPaperSize()">
                 <option value="">--Select an option--</option>
                 <option value="PRICE.lbx">PRICE</option>
                 <option value="RECEIPT.lbx">RECEIPT</option>
@@ -66,10 +66,10 @@
             <label for="papersize">Paper Size:</label>
             <p id="paperSizeLabel"></p>
 
-            <label for="text1Object">Text Object:</label>
+            <label for="text1Object" id="text1Label">Text Object:</label>
             <input type="text" id="text1Object" name="text1Object" required><br><br>
 
-            <label for="barcodeObject">Barcode (Code128) Object:</label>
+            <label for="barcodeObject" id="barcodeLabel">Barcode (Code128) Object:</label>
             <input type="text" id="barcodeObject" name="barcodeObject" required><br><br>
 	
             <label for="Orientation">Orientation:</label>
@@ -93,24 +93,11 @@
         </div>
 
         <!-- Download Button -->
-<div class="download">
-    <a id="downloadLink" href="https://github.com/jovana-a/demo-html/blob/main/files.zip">
-        <button type="button" onclick="downloadFile()">Download Files</button>
-    </a>
-</div>
-
-<script>
-    function downloadFile() {
-        const link = document.getElementById('downloadLink');
-        const url = link.href;
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'files.zip';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
-</script>
+        <div class="download">
+            <a id="downloadLink" href="https://github.com/jovana-a/demo-html/blob/main/files.zip">
+                <button type="button" onclick="downloadFile()">Download Files</button>
+            </a>
+        </div>
 	    
         <script>
             function showPaperSize() {
@@ -134,6 +121,27 @@
                 }
 
                 paperSizeLabel.textContent = paperSize;
+            }
+
+            function updateLabels() {
+                const dropdown = document.getElementById("templateDropdown");
+                const text1Label = document.getElementById("text1Label");
+                const barcodeLabel = document.getElementById("barcodeLabel");
+                const selectedValue = dropdown.value;
+
+                switch (selectedValue) {
+                    case "PRICE.lbx":
+                        text1Label.textContent = "Article Name:";
+                        barcodeLabel.textContent = "New Price:";
+                        break;
+                    case "RECEIPT.lbx":
+                        text1Label.textContent = "Text Object:";
+                        barcodeLabel.textContent = "QR Code:";
+                        break;
+                    default:
+                        text1Label.textContent = "Text Object:";
+                        barcodeLabel.textContent = "Barcode (Code128) Object:";
+                }
             }
 
             function previewLink() {
@@ -167,6 +175,17 @@
                     return `brotherwebprint://print?filename=${selectedValue}&size=${paperSize}&orientation=${encodeURIComponent(orientation)}&text_text=${encodeURIComponent(text1Object)}&barcode_barcode=${encodeURIComponent(barcodeObject)}&copies=${encodeURIComponent(copies)}`;
                 }
                 return null;
+            }
+
+            function downloadFile() {
+                const link = document.getElementById('downloadLink');
+                const url = link.href;
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'files.zip';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
             }
         </script>
     </div>
