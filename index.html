@@ -94,10 +94,23 @@
 
         <!-- Download Button -->
 <div class="download">
-    <a href="https://github.com/jovana-a/demo-html/raw/main/files.zip" download="files.zip">
-        <button type="button">Download Files</button>
+    <a id="downloadLink" href="https://github.com/jovana-a/demo-html/blob/main/files.zip">
+        <button type="button" onclick="downloadFile()">Download Files</button>
     </a>
 </div>
+
+<script>
+    function downloadFile() {
+        const link = document.getElementById('downloadLink');
+        const url = link.href;
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'files.zip';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+</script>
 	    
         <script>
             function showPaperSize() {
