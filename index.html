@@ -127,33 +127,4 @@
 
             function updateLabels() {
                 const dropdown = document.getElementById("templateDropdown");
-                const text1Label = document.getElementById("text1Label");
-                const barcodeLabel = document.getElementById("barcodeLabel");
-                const selectedValue = dropdown.value;
-
-                switch (selectedValue) {
-                    case "PRICE.lbx":
-                        text1Label.textContent = "Article Name:";
-                        barcodeLabel.textContent = "New Price:";
-                        break;
-                    case "RECEIPT.lbx":
-                        text1Label.textContent = "Text Object:";
-                        barcodeLabel.textContent = "QR Code:";
-                        break;
-                    default:
-                        text1Label.textContent = "Text Object:";
-                        barcodeLabel.textContent = "Barcode (Code128) Object:";
-                }
-            }
-
-            function previewLink() {
-                const url = generateUrl();
-                const previewDiv = document.getElementById("previewLink");
-                if (url) {
-                    previewDiv.textContent = url; // Display the URL as text
-                } else {
-                    previewDiv.textContent = ""; // Clear if no URL
-                }
-            }
-
-            function sendToPrint() {
+                const text1Label = document.getElementById("text1Label
