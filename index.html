@@ -23,7 +23,7 @@
             margin: auto;
             text-align: center;
         }
-        h1, label {
+        h1, h2, label {
             color: white; /* Title and labels in white */
         }
         select, input, button {
@@ -52,7 +52,8 @@
 
     <img src="Bluebar.jpg" alt="Brother Logo" class="logo" width="350">
     <div class="container">
-        <h1>Brother Smooth Print Demo</h1>
+        <h1>Brother</h1>
+	<h2>Smooth Print Demo</h2>
         <form id="printForm">
             <!-- Dropdown List -->
             <label for="templateDropdown">Select Template:</label>
@@ -63,6 +64,8 @@
                 <option value="SHIPPING.lbx">SHIPPING</option>
             </select>
 
+            <br> <!-- Added line break -->
+
             <label for="papersize">Paper Size:</label>
             <p id="paperSizeLabel"></p>
 
@@ -71,7 +74,7 @@
 
             <label for="barcodeObject" id="barcodeLabel">Barcode (Code128) Object:</label>
             <input type="text" id="barcodeObject" name="barcodeObject" required><br><br>
-	
+    
             <label for="Orientation">Orientation:</label>
             <select id="orientation">
                 <option value="portrait">Portrait</option>
@@ -90,12 +93,9 @@
 
         <div class="footer">
             <a href="https://support.brother.com/g/b/agreement.aspx?dlid=dlfp101087_000&c=eu_ot&lang=en" target="_blank" style="color: darkblue;">Smooth Print App Download for Android</a>
-        </div>        
-	
-	<div class="footer">
+            <br>
             <a href="https://apps.apple.com/us/app/smooth-print/id1629559918" target="_blank" style="color: darkblue;">Smooth Print App Download for iOS</a>
         </div>
-	    
 
         <!-- Download Button -->
         <div class="download">
@@ -103,7 +103,7 @@
                 <button type="button" onclick="downloadFile()">Download Files</button>
             </a>
         </div>
-	    
+        
         <script>
             function showPaperSize() {
                 const dropdown = document.getElementById("templateDropdown");
