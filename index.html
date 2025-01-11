@@ -23,7 +23,7 @@
             margin: auto;
             text-align: center;
         }
-        h1, h2, label {
+        h1, label {
             color: white; /* Title and labels in white */
         }
         select, input, button {
@@ -93,13 +93,18 @@
 
         <div class="footer">
             <a href="https://support.brother.com/g/b/agreement.aspx?dlid=dlfp101087_000&c=eu_ot&lang=en" target="_blank" style="color: darkblue;">Smooth Print App Download for Android</a>
-            <br>
+        </div>   
+        <br><br>
+        <div class="footer">
             <a href="https://apps.apple.com/us/app/smooth-print/id1629559918" target="_blank" style="color: darkblue;">Smooth Print App Download for iOS</a>
         </div>
-
+        
+        <br><br>
         <!-- Download Button -->
         <div class="download">
-            <button type="button" onclick="downloadFile()">Download Files</button>
+            <a id="downloadLink" href="https://github.com/jovana-a/demo-html/blob/main/files.zip">
+                <button type="button" onclick="downloadFile()">Download Files</button>
+            </a>
         </div>
         
         <script>
@@ -128,4 +133,69 @@
 
             function updateLabels() {
                 const dropdown = document.getElementById("templateDropdown");
-                const text1Label = document.getElementById("text1Label
+                const text1Label = document.getElementById("text1Label");
+                const barcodeLabel = document.getElementById("barcodeLabel");
+                const selectedValue = dropdown.value;
+
+                switch (selectedValue) {
+                    case "PRICE.lbx":
+                        text1Label.textContent = "Article Name:";
+                        barcodeLabel.textContent = "New Price:";
+                        break;
+                    case "RECEIPT.lbx":
+                        text1Label.textContent = "Text Object:";
+                        barcodeLabel.textContent = "QR Code:";
+                        break;
+                    default:
+                        text1Label.textContent = "Text Object:";
+                        barcodeLabel.textContent = "Barcode (Code128) Object:";
+                }
+            }
+
+            function previewLink() {
+                const url = generateUrl();
+                const previewDiv = document.getElementById("previewLink");
+                if (url) {
+                    previewDiv.textContent = url; // Display the URL as text
+                } else {
+                    previewDiv.textContent = ""; // Clear if no URL
+                }
+            }
+
+            function sendToPrint() {
+                const url = generateUrl();
+                if (url) {
+                    window.open(url, '_blank');
+                }
+            }
+
+            function generateUrl() {
+                const dropdown = document.getElementById("templateDropdown");
+                const paperSizeLabel = document.getElementById("paperSizeLabel");
+                const selectedValue = dropdown.value;
+                const paperSize = paperSizeLabel.textContent;
+                const text1Object = document.getElementById('text1Object').value;
+                const barcodeObject = document.getElementById('barcodeObject').value;
+                const orientation = document.getElementById('orientation').value;
+                const copies = document.getElementById('copies').value;
+
+                if (selectedValue && paperSize) {
+                    return `brotherwebprint://print?filename=${selectedValue}&size=${paperSize}&orientation=${encodeURIComponent(orientation)}&text_text=${encodeURIComponent(text1Object)}&barcode_barcode=${encodeURIComponent(barcodeObject)}&copies=${encodeURIComponent(copies)}`;
+                }
+                return null;
+            }
+
+            function downloadFile() {
+                const link = document.getElementById('downloadLink');
+                const url = link.href;
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'files.zip';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        </script>
+    </div>
+</body>
+</html>
