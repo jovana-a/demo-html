@@ -46,6 +46,9 @@
             color: darkblue; /* Color for the preview link text */
             word-wrap: break-word; /* Ensure long URLs wrap */
         }
+        #newPriceContainer {
+            display: none; /* Hide the New Price input field by default */
+        }
     </style>
 </head>
 <body>
@@ -75,8 +78,10 @@
             <label for="barcodeObject" id="barcodeLabel">Barcode (Code128) Object:</label>
             <input type="text" id="barcodeObject" name="barcodeObject" required><br><br>
     
-            <label for="newPriceObject" id="newPriceLabel">New Price:</label>
-            <input type="text" id="newPriceObject" name="newPriceObject" required><br><br>
+            <div id="newPriceContainer">
+                <label for="newPriceObject" id="newPriceLabel">New Price:</label>
+                <input type="text" id="newPriceObject" name="newPriceObject"><br><br>
+            </div>
 
             <label for="Orientation">Orientation:</label>
             <select id="orientation">
@@ -137,24 +142,24 @@
                 const dropdown = document.getElementById("templateDropdown");
                 const text1Label = document.getElementById("text1Label");
                 const barcodeLabel = document.getElementById("barcodeLabel");
-                const newPriceLabel = document.getElementById("newPriceLabel");
+                const newPriceContainer = document.getElementById("newPriceContainer");
                 const selectedValue = dropdown.value;
 
                 switch (selectedValue) {
                     case "PRICE.lbx":
                         text1Label.textContent = "Article Name:";
                         barcodeLabel.textContent = "Barcode:";
-                        newPriceLabel.style.display = "block";
+                        newPriceContainer.style.display = "block";
                         break;
                     case "RECEIPT.lbx":
                         text1Label.textContent = "Text Object:";
                         barcodeLabel.textContent = "QR Code:";
-                        newPriceLabel.style.display = "none";
+                        newPriceContainer.style.display = "none";
                         break;
                     default:
                         text1Label.textContent = "Text Object:";
                         barcodeLabel.textContent = "Barcode (Code128) Object:";
-                        newPriceLabel.style.display = "block";
+                        newPriceContainer.style.display = "none";
                 }
             }
 
@@ -188,8 +193,10 @@
 
                 if (selectedValue && paperSize) {
                     if (selectedValue === "PRICE.lbx") {
-                        return `brotherwebprint://print?filename=${selectedValue}&size=${paperSize}&orientation=${encodeURIComponent(orientation)}&text_text=${encodeURIComponent(text1Object)}&barcode_barcode=${encodeURIComponent(barcodeObject)}&text_text2=${encodeURIComponent(newPriceObject)}&copies=${encodeURIComponent(copies)}`;
+                        return `brotherwebprint://print?filename=${selectedValue}&size=${paperSize}&orientation=${encodeURIComponent(orientation)}&text_text=${encodeURIComponent(text1Object)}&barcode_barcode=${encodeURIComponent(barcodeObject)}&price_price=${encodeURIComponent(newPriceObject)}&copies=${encodeURIComponent(copies)}`;
                     } else if (selectedValue === "RECEIPT.lbx") {
+                        return `brotherwebprint://print?filename=${selectedValue}&size=${paperSize}&orientation=${encodeURIComponent(orientation)}&text_text=${encodeURIComponent(text1Object)}&barcode_barcode=${encodeURIComponent(barcodeObject)}&copies=${encodeURIComponent(copies)}`;
+                    } else if (selectedValue === "SHIPPING.lbx") {
                         return `brotherwebprint://print?filename=${selectedValue}&size=${paperSize}&orientation=${encodeURIComponent(orientation)}&text_text=${encodeURIComponent(text1Object)}&barcode_barcode=${encodeURIComponent(barcodeObject)}&copies=${encodeURIComponent(copies)}`;
                     }
                 }
