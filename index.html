@@ -179,7 +179,7 @@
                 const copies = document.getElementById('copies').value;
 
                 if (selectedValue && paperSize) {
-                    return `brotherwebprint://print?filename=${selectedValue}&size=${paperSize}&orientation=${encodeURIComponent(orientation)}&text_text=${encodeURIComponent(text1Object)}&barcode_barcode=${encodeURIComponent(barcodeObject)}&copies=${encodeURIComponent(copies)}`;
+                    return `brotherwebprint://print?filename=${selectedValue}&size=${paperSize}&orientation=${encodeURIComponent(orientation)}&article_name=${encodeURIComponent(text1Object)}&barcode_barcode=${encodeURIComponent(barcodeObject)}&price_price=${encodeURIComponent(barcodeObject)}&copies=${encodeURIComponent(copies)}`;
                 }
                 return null;
             }
